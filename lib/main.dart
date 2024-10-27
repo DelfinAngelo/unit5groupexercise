@@ -51,7 +51,7 @@ class _ImageSwipeScreenState extends State<ImageSwipeScreen> {
               onScaleUpdate: _onScaleUpdate,
               child: Transform.scale(
                 scale: _imageScale,
-                child: Image.asset('assets/default_image.png', width: 150, height: 150),
+                child: Image.asset('assets/image1.jpg', width: 150, height: 150),
               ),
             ),
 
