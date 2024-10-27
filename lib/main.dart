@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(AppZoomImageAndSwipeDelete());
+void main() => runApp(ImageSwipeApp());
 
-class AppZoomImageAndSwipeDelete extends StatelessWidget {
+class ImageSwipeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ScreenImageZoomAndSwipe(),
+      home: ImageSwipeScreen(),
     );
   }
 }
 
-class ScreenImageZoomAndSwipe extends StatefulWidget {
+class ImageSwipeScreen extends StatefulWidget {
   @override
-  State<ScreenImageZoomAndSwipe> createState() => _ScreenImageZoomAndSwipeState();
+  _ImageSwipeScreenState createState() => _ImageSwipeScreenState();
 }
 
-class _ScreenImageZoomAndSwipeState extends State<ScreenImageZoomAndSwipe> {
+class _ImageSwipeScreenState extends State<ImageSwipeScreen> {
   List<String> _items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
   double _imageScale = 1.0;
 
-  void handleDeleteItem(int index) {
+  void _deleteItem(int index) {
     setState(() {
       _items.removeAt(index);
     });
@@ -29,7 +29,7 @@ class _ScreenImageZoomAndSwipeState extends State<ScreenImageZoomAndSwipe> {
     );
   }
 
-  void handleScaleImage(ScaleUpdateDetails details) {
+  void _onScaleUpdate(ScaleUpdateDetails details) {
     setState(() {
       _imageScale = details.scale.clamp(1.0, 3.0); // Limit zoom scale between 1x and 3x
     });
@@ -39,7 +39,7 @@ class _ScreenImageZoomAndSwipeState extends State<ScreenImageZoomAndSwipe> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Image Zoom & Swipe to Delete"),
+        title: Text("Image Zoom and Swipe"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -48,10 +48,10 @@ class _ScreenImageZoomAndSwipeState extends State<ScreenImageZoomAndSwipe> {
             // Image with pinch-to-zoom functionality
             SizedBox(height: 20),
             GestureDetector(
-              onScaleUpdate: handleScaleImage,
+              onScaleUpdate: _onScaleUpdate,
               child: Transform.scale(
                 scale: _imageScale,
-                child: Image.asset('assets/image1.jpg', width: 150, height: 150),
+                child: Image.asset('assets/default_image.png', width: 150, height: 150),
               ),
             ),
 
@@ -62,7 +62,7 @@ class _ScreenImageZoomAndSwipeState extends State<ScreenImageZoomAndSwipe> {
                 itemBuilder: (context, index) {
                   return Dismissible(
                     key: Key(_items[index]),
-                    onDismissed: (direction) => handleDeleteItem(index),
+                    onDismissed: (direction) => _deleteItem(index),
                     background: Container(color: Colors.red),
                     child: ListTile(
                       title: Text(_items[index]),
